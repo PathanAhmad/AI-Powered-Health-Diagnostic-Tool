@@ -1,4 +1,4 @@
-{% load static from staticfiles%}
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,8 +10,9 @@
 	<link rel="shortcut icon" href="/assets/img/favicon.png">
 
 	<title>
-		Employee Management System
+		Disease Prediction System
 	</title>
+	<link rel="stylesheet" href="/assets/css/buttons.dataTables.min.css" rel="stylesheet" type="text/css" media="all">
 
 	<!-- Bootstrap core CSS -->
 	<link href="/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -36,8 +37,9 @@
 	<link rel="stylesheet" type="text/css" href="/assets/css/component.css">
 	<link href="/assets/css/style.css" rel="stylesheet">
 	<link href="/assets/css/style-responsive.css" rel="stylesheet" />
-
+	
 	<link rel="stylesheet" type="text/css" href="/assets/css/parallax-slider/parallax-slider.css" />
+	<link href='/assets/css/jquery.dataTables.min.css' rel='stylesheet' type='text/css'>
 	<script type="text/javascript" src="/assets/js/parallax-slider/modernizr.custom.28468.js">
 
 	</script>
@@ -52,12 +54,21 @@
 	<script src="/assets/js/jquery.easing.min.js"></script>
 	<script src="/assets/js/link-hover.js"></script>
 	<script type="text/javascript" src="/assets/js/jquery-ui.js"></script>
-
-
+	<script src="/assets/js/jquery.dataTables.min.js"></script>
+	
 	<!--common script for all pages-->
 	<script src="/assets/js/common-scripts.js"></script>
 	<script src="/assets/js/wow.min.js"></script>
 
+
+	<script src="/assets/js/dataTables.buttons.min.js"></script>
+	<script src="/assets/js/buttons.flash.min.js"></script>
+	<script src="/assets/js/jszip.min.js"></script>
+	<script src="/assets/js/pdfmake.min.js"></script>
+	<script src="/assets/js/vfs_fonts.js"></script>
+	<script src="/assets/js/buttons.html5.min.js"></script>
+	<script src="/assets/js/buttons.print.min.js"></script>
+	<script src="/assets/js/chart.bundle.min.js"></script>
 	<!-- HTML5 shim and Respond.js IE8 support of HTML5 tooltipss and media queries -->
 	<!--[if lt IE 9]>
     <script src="/assets/js/html5shiv.js">
@@ -72,47 +83,45 @@
 	<header class="head-section">
 		<div class="navbar navbar-default navbar-static-top container">
 			<div class="navbar-header">
-				<button class="navbar-toggle" data-target=".navbar-collapse" data-toggle="collapse" type="button">
+				<button class="navbar-toggle" data-outcome=".navbar-collapse" data-toggle="collapse" type="button">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-				<a class="navbar-brand" href="/">E<span>mployee</span> M<span>anagement</span> <span>System</span></a>
+				<a class="navbar-brand" href="/">Disease Prediction System</a>
 			</div>
 			<div class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 					<li><a href="/">Home</a></li>
 					<li><a href="/pages/about">About</a></li>
-					<li><a href="/pages/contact">Contact</a></li>				
+					{% if request.session.user_level_id == 1 %}		
+					<li><a href="/users/dashboard">Dashboard</a></li>		
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-close-others="false" data-delay="0" data-hover="dropdown" data-toggle="dropdown" href="#">Employee <i class="fa fa-angle-down"></i>
+						<a class="dropdown-toggle" data-close-others="false" data-delay="0" data-hover="dropdown" data-toggle="dropdown" href="#">My Administration <i class="fa fa-angle-down"></i>
                       </a>
 						<ul class="dropdown-menu">
-							<li><a href="/employee/employee-add">Add Employee</a></li>
-							<li><a href="/department/add">Add Department</a></li>
-							<li><a href="/project/add">Add Project</a></li>
-							<li><a href="/timesheet/add">Add TimeSheet</a></li>
-							<li><a href="/appraisal/add">Add Appraisal</a></li>
-							<li><a href="/leave/add">Add Leave</a></li>
-							<li><a href="/salary/add">Add Salary</a></li>
+							<li><a href="/disease/datasets">Disease Dataset</a></li>
+							<li><a href="/disease/analysis">Data Analysis</a></li>
+							<li><a href="/disease/all">All Disease</a></li>
+							<li><a href="/disease/prediction">Predict Disease</a></li>
 						</ul>
 					</li>
+					{% endif %}
+					{% if request.session.authenticated %}	
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-close-others="false" data-delay="0" data-hover="dropdown" data-toggle="dropdown" href="#">Employee Details <i class="fa fa-angle-down"></i>
+						<a class="dropdown-toggle" data-close-others="false" data-delay="0" data-hover="dropdown" data-toggle="dropdown" href="#">My Account <i class="fa fa-angle-down"></i>
                       </a>
 						<ul class="dropdown-menu">
-							<li><a href="/employee/employee-record">Employee Details</a></li>
-							<li><a href="/department">Department Details</a></li>
-							<li><a href="/project">Project Details</a></li>
-							<li><a href="/timesheet">Time Sheet Details</a></li>
-							<li><a href="/appraisal">Appraisal Details</a></li>
-							<li><a href="/leave">Leave Details</a></li>
-							<li><a href="/salary">Salary Details</a></li>
+							<li><a href="/users/update/{{ request.session.user_id }}/">My Account</a></li>
+							<li><a href="/users/changepassword">Change Password</a></li>
 						</ul>
 					</li>
-					
-					<li><a href="/employee">Login</a></li>
-				
+					<li><a href="/users/logout">Logout</a></li>
+					{% else %}
+					<li><a href="/users/add">Register</a></li>
+					<li><a href="/users">Login</a></li>
+					<li><a href="/pages/contact">Contact Us</a></li>
+					{% endif %}
 				</ul>
 				</ul>
 			</div>
@@ -165,7 +174,7 @@
 						<ul class="page-footer-list">
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="#">Patient Module</a>
+								<a href="#">Disease Dataset Module</a>
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
@@ -173,7 +182,7 @@
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="#">Doctor Module</a>
+								<a href="#">Prediction Module</a>
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
@@ -181,7 +190,7 @@
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="#">Appointment Module</a>
+								<a href="#">Order Module</a>
 							</li>
 						</ul>
 					</div>
@@ -196,11 +205,11 @@
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="/about">About Us</a>
+								<a href="/pages/about">About Us</a>
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="/contact">Contact</a>
+								<a href="/pages/contact">Contact</a>
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
@@ -208,7 +217,7 @@
 							</li>
 							<li>
 								<i class="fa fa-angle-right"></i>
-								<a href="login.php">Email Us</a>
+								<a href="/pages/contact">Email Us</a>
 							</li>
 						</ul>
 					</div>
@@ -219,11 +228,7 @@
 							About Project
 						</h1>
 						<p>
-							A health club (also known as a fitness club, fitness center, health spa, and commonly referred to as a gym) is a place which
-							houses exercise equipment for the purpose of physical exercise. A health club (also known as a fitness club, fitness
-							center, health spa, and commonly referred to as a gym) is a place which houses exercise equipment for the purpose
-							of physical exercise.
-						</p>
+								<p>Healthcare industry has huge amount of data that contains hidden information. This information supports decision making process on related area. In this research paper, we discussed various approaches of data mining which are useful in predicting the disease disease.</p>
 					</div>
 				</div>
 			</div>
@@ -234,21 +239,9 @@
 	<footer class="footer-small">
 		<div class="container">
 			<div class="row">
-				<div class="col-lg-6 col-sm-6 pull-right">
-					<ul class="social-link-footer list-unstyled">
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".1s"><a href="#"><i class="fa fa-facebook"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".2s"><a href="#"><i class="fa fa-google-plus"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".3s"><a href="#"><i class="fa fa-dribbble"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".4s"><a href="#"><i class="fa fa-linkedin"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".5s"><a href="#"><i class="fa fa-twitter"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".6s"><a href="#"><i class="fa fa-skype"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".7s"><a href="#"><i class="fa fa-github"></i></a></li>
-						<li class="wow flipInX" data-wow-duration="2s" data-wow-delay=".8s"><a href="#"><i class="fa fa-youtube"></i></a></li>
-					</ul>
-				</div>
 				<div class="col-md-4">
 					<div class="copyright">
-						<p>&copy; Copyright Employee Management System.</p>
+						<p>&copy; Copyright Disease Prediction</p>
 					</div>
 				</div>
 			</div>
