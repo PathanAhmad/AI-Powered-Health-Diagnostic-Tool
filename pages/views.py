@@ -13,7 +13,7 @@ def contact(request):
 def listing(request, employeeId):
     try:
         employeelist =  employee.objects.filter(Q(employee_level=employeeId))
-    except Exception, e:
+    except Exception as e:
         return HttpResponse('Something went wrong. Error Message : '+ str(e))
 
     context = {
@@ -23,6 +23,6 @@ def listing(request, employeeId):
     }	
 	    # Message according Users Role #
     if(employeeId == "1"):
-        context['heading'] = "Employee Report";
+        context['heading'] = "User Report";
     return render(request,'employee-report.html',context)
 	
