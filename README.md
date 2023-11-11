@@ -1,4 +1,4 @@
-AIIMs Disease Prediction Web Application
+Disease Prediction Website
 Overview
 
 This repository contains the source code for a full-stack web application designed to predict diseases based on user-input symptoms using a decision tree model trained on the AIIMs dataset. The application aims to provide users with a quick and reliable estimation of potential diseases based on their reported symptoms.
