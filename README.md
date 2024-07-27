@@ -15,3 +15,8 @@ This repository contains the source code for a full-stack web application design
 **Note on Running the Application**
 
 Due to outdated versions or other issues, the application may not run properly. If you wish to run it, please contact me for assistance. 
+
+
+## Research Paper
+
+For detailed information about the disease prediction model, you can refer to the research paper available [here](https://github.com/PathanAhmad/AI-Powered-Health-Diagnostic-Tool/blob/main/DPRP.pdf).
